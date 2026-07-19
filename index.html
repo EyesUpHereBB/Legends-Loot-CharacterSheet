@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Eldritch — Character Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <div><h1>Project Eldritch: Sunken City</h1><p>Interactive character tracker</p></div>
+  <div class="actions">
+    <button id="saveBtn">Save</button><button id="exportBtn">Export</button>
+    <label class="import">Import<input id="importInput" type="file" accept="application/json"></label>
+    <button id="resetBtn" class="danger">Reset</button>
+  </div>
+</header>
+<main><div class="scroller"><div id="sheet" class="sheet">
+  <!-- Identity: positioned to the printed writing lines -->
+  <input class="line-field" data-key="name" style="left:543px;top:43px;width:336px;height:20px">
+  <input class="line-field" data-key="player" style="left:543px;top:76px;width:336px;height:20px">
+  <input class="line-field" data-key="occupation" style="left:543px;top:109px;width:336px;height:20px">
+  <input class="line-field" data-key="age" style="left:542px;top:142px;width:83px;height:20px">
+  <input class="line-field" data-key="background" style="left:704px;top:142px;width:175px;height:20px">
+  <input class="line-field" data-key="origin" style="left:543px;top:175px;width:336px;height:20px">
+  <textarea class="lined-area" data-key="appearance" style="left:495px;top:232px;width:384px;height:101px;line-height:28px"></textarea>
+
+  <!-- Conditions: each hitbox exactly covers the printed square -->
+  <label class="condition-hitbox" style="left:952px;top:74px" title="Bleeding"><input type="checkbox" data-condition="bleeding"><span></span></label>
+  <label class="condition-hitbox" style="left:1171px;top:74px" title="Infected"><input type="checkbox" data-condition="infected"><span></span></label>
+  <label class="condition-hitbox" style="left:952px;top:99px" title="Broken"><input type="checkbox" data-condition="broken"><span></span></label>
+  <label class="condition-hitbox" style="left:1171px;top:99px" title="Insane"><input type="checkbox" data-condition="insane"><span></span></label>
+  <label class="condition-hitbox" style="left:952px;top:124px" title="Exhausted"><input type="checkbox" data-condition="exhausted"><span></span></label>
+  <label class="condition-hitbox" style="left:1171px;top:124px" title="Restrained"><input type="checkbox" data-condition="restrained"><span></span></label>
+  <label class="condition-hitbox" style="left:952px;top:149px" title="Frightened"><input type="checkbox" data-condition="frightened"><span></span></label>
+  <label class="condition-hitbox" style="left:1171px;top:149px" title="Silenced"><input type="checkbox" data-condition="silenced"><span></span></label>
+  <label class="condition-hitbox" style="left:952px;top:174px" title="Hallucinating"><input type="checkbox" data-condition="hallucinating"><span></span></label>
+  <label class="condition-hitbox" style="left:1171px;top:174px" title="Unconscious"><input type="checkbox" data-condition="unconscious"><span></span></label>
+  <textarea class="lined-area" data-key="notes" style="left:943px;top:232px;width:390px;height:101px;line-height:28px"></textarea>
+
+  <!-- Attribute score boxes -->
+  <input class="box-number attribute" type="number" data-key="strength" style="left:371px;top:395px;width:55px;height:52px">
+  <input class="box-number attribute" type="number" data-key="dexterity" style="left:371px;top:459px;width:55px;height:52px">
+  <input class="box-number attribute" type="number" data-key="constitution" style="left:371px;top:523px;width:55px;height:52px">
+  <input class="box-number attribute" type="number" data-key="intelligence" style="left:371px;top:587px;width:55px;height:52px">
+  <input class="box-number attribute" type="number" data-key="wisdom" style="left:371px;top:651px;width:55px;height:52px">
+  <input class="box-number attribute" type="number" data-key="charisma" style="left:371px;top:715px;width:55px;height:52px">
+
+  <!-- Combat boxes -->
+  <input class="box-number combat-wide" type="number" data-key="currentHealth" style="left:487px;top:431px;width:253px;height:40px">
+  <input class="box-number combat-wide" type="number" data-key="maxHealth" style="left:758px;top:431px;width:91px;height:40px">
+  <input class="box-number combat" type="number" data-key="armorClass" style="left:533px;top:522px;width:121px;height:42px">
+  <input class="box-number combat" type="number" data-key="initiative" style="left:745px;top:522px;width:104px;height:42px">
+  <input class="box-number combat" type="number" data-key="movement" style="left:533px;top:618px;width:121px;height:42px">
+  <input class="box-number combat" type="number" data-key="infectionLevel" min="0" max="10" style="left:745px;top:618px;width:104px;height:42px">
+
+  <!-- Saves / resistances -->
+  <input class="box-number resist" type="number" data-key="physicalResist" style="left:606px;top:752px;width:38px;height:35px">
+  <input class="box-number resist" type="number" data-key="corruptionResist" style="left:805px;top:752px;width:38px;height:35px">
+  <input class="box-number resist" type="number" data-key="psychicResist" style="left:606px;top:801px;width:38px;height:35px">
+  <input class="box-number resist" type="number" data-key="fearResist" style="left:805px;top:801px;width:38px;height:35px">
+  <input class="box-number resist" type="number" data-key="diseaseResist" style="left:606px;top:851px;width:38px;height:35px">
+  <input class="line-field other-label" data-key="otherResistLabel" aria-label="Other resistance name" style="left:719px;top:850px;width:70px;height:25px">
+  <input class="box-number resist" type="number" data-key="otherResist" style="left:805px;top:851px;width:38px;height:35px">
+
+  <!-- Journal: line spacing matches the six printed rows -->
+  <textarea class="lined-area journal-area" data-key="journal" style="left:91px;top:839px;width:335px;height:137px;line-height:22px"></textarea>
+
+  <!-- Equipment: separate fields keep names, damage, AC and quantities in their printed columns -->
+  <textarea class="lined-area inventory" data-key="weapons" style="left:910px;top:438px;width:181px;height:132px;line-height:21px"></textarea>
+  <textarea class="lined-area inventory narrow" data-key="weaponDamage" style="left:1110px;top:438px;width:48px;height:132px;line-height:21px"></textarea>
+  <textarea class="lined-area inventory" data-key="armor" style="left:1187px;top:438px;width:204px;height:132px;line-height:21px"></textarea>
+  <textarea class="lined-area inventory narrow" data-key="armorAC" style="left:1401px;top:438px;width:36px;height:132px;line-height:21px"></textarea>
+  <textarea class="lined-area inventory" data-key="accessories" style="left:910px;top:646px;width:227px;height:132px;line-height:21px"></textarea>
+  <textarea class="lined-area inventory" data-key="consumables" style="left:1187px;top:646px;width:204px;height:132px;line-height:21px"></textarea>
+  <textarea class="lined-area inventory narrow" data-key="consumableQty" style="left:1401px;top:646px;width:36px;height:132px;line-height:21px"></textarea>
+  <textarea class="lined-area inventory" data-key="questItems" style="left:910px;top:852px;width:527px;height:132px;line-height:21px"></textarea>
+
+  <aside class="dock"><h2>Quick Controls</h2><div class="hp"><button data-hp="-5">−5</button><button data-hp="-1">−1</button><button data-hp="1">+1</button><button data-hp="5">+5</button></div>
+    <div class="bar"><div id="healthFill"></div></div><p id="healthText">0 / 0 HP</p>
+    <select id="rollAttribute"><option value="strength">Strength</option><option value="dexterity">Dexterity</option><option value="constitution">Constitution</option><option value="intelligence">Intelligence</option><option value="wisdom">Wisdom</option><option value="charisma">Charisma</option></select>
+    <button id="rollBtn">Roll d20</button><div id="rollResult" class="result">Ready.</div>
+  </aside>
+</div></div></main>
+<div id="toast" class="toast"></div><script src="app.js"></script>
+</body></html>

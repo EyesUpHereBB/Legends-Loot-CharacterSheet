@@ -1,0 +1,43 @@
+*{box-sizing:border-box}
+body{margin:0;background:#171713;color:#f4ead8;font-family:Georgia,"Times New Roman",serif}
+.topbar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;gap:1rem;align-items:center;padding:.8rem 1.2rem;background:#0d1513;border-bottom:1px solid #4d493e}
+.topbar h1{margin:0;font-size:1.2rem}.topbar p{margin:.2rem 0 0;opacity:.7}.actions{display:flex;gap:.5rem;flex-wrap:wrap}
+button,.import,select{font:inherit;border:1px solid #8c795b;background:#e8d8bc;color:#171713;border-radius:5px;padding:.5rem .7rem;cursor:pointer}.danger{background:#7f302b;color:#fff}.import input{display:none}
+main{padding:1rem}.scroller{max-width:1536px;margin:auto;overflow:auto;border:1px solid #665c4d;box-shadow:0 15px 50px #0007}
+.sheet{position:relative;width:1536px;height:1024px;background:url('eldritch-sheet.png') 0 0/1536px 1024px no-repeat;transform-origin:top left}
+
+/* All sheet inputs are transparent until focused so no HTML border competes with the printed artwork. */
+.line-field,.lined-area,.box-number{position:absolute;margin:0;color:#13211d;font-family:Georgia,"Times New Roman",serif;outline:none;border:0;background:transparent;border-radius:0;padding:0 3px;box-shadow:none}
+.line-field{font-size:16px;line-height:20px}
+.lined-area{resize:none;overflow:hidden;font-size:15px;padding:0 3px;background:transparent}
+.inventory{font-size:14px}.narrow{text-align:center;padding-left:0;padding-right:0}
+.line-field:focus,.lined-area:focus,.box-number:focus{background:rgba(255,255,255,.34);box-shadow:0 0 0 1px rgba(27,80,67,.28) inset}
+
+.box-number{-moz-appearance:textfield;appearance:textfield;text-align:center;font-weight:600}
+.box-number::-webkit-inner-spin-button,.box-number::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.attribute{font-size:22px;line-height:52px}
+.combat-wide{font-size:19px;line-height:40px}
+.combat{font-size:19px;line-height:42px}
+.resist{font-size:16px;line-height:35px}
+
+.condition-hitbox{position:absolute;width:18px;height:18px;display:block;cursor:pointer;z-index:3}
+.condition-hitbox input{position:absolute;inset:0;width:18px;height:18px;margin:0;opacity:0;cursor:pointer}
+.condition-hitbox span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#10211d;font-family:Georgia,"Times New Roman",serif;font-size:19px;font-weight:700;line-height:18px;pointer-events:none}
+.condition-hitbox input:checked+span::after{content:"✓";transform:translateY(-1px)}
+.condition-hitbox:focus-within{outline:1px solid rgba(27,80,67,.5);outline-offset:1px}
+
+.dock{position:absolute;left:1324px;top:38px;width:195px;padding:.7rem;background:#0b1916ed;color:#f5ead7;border:1px solid #b79869;border-radius:8px;box-shadow:0 7px 22px #0005}
+.dock h2{font-size:.95rem;text-align:center;margin:0 0 .6rem}.hp{display:grid;grid-template-columns:repeat(4,1fr);gap:.25rem}.hp button{padding:.35rem .1rem;font-size:.8rem}.bar{height:12px;margin-top:.55rem;border:1px solid #c8b487;background:#3a2826;overflow:hidden}#healthFill{height:100%;width:0;background:linear-gradient(90deg,#6d1f1f,#b54f39,#bf9b49);transition:.2s}.dock p{text-align:center;font-size:.76rem}.dock select,.dock>button{width:100%;margin-top:.35rem;font-size:.76rem}.result{margin-top:.55rem;min-height:43px;padding:.45rem;border:1px solid #7c6f58;background:#fff1;font-size:.78rem;text-align:center}
+.toast{position:fixed;right:1rem;bottom:1rem;padding:.7rem 1rem;background:#10211d;border:1px solid #b79869;border-radius:6px;opacity:0;transform:translateY(10px);transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:none}
+@media(max-width:900px){.topbar{align-items:flex-start;flex-direction:column}}
+
+/* Final pixel-alignment refinements */
+.other-label {
+  padding: 0 2px;
+  text-align: left;
+  font-size: 14px;
+}
+.journal-area {
+  padding: 0 3px;
+  overflow: hidden;
+}
