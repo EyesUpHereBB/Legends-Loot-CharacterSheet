@@ -64,3 +64,18 @@ Latest update:
 - Restored the pre-noir parchment/tabletop theme.
 - Replaced mechanical infection sweeps and shakes with biological tissue growth, branching vessels, translucent lesions, and slow organic pulsation.
 - Infection intensity still scales from level 1 through 10, but remains readable and contained in the health display.
+
+
+## Act I starting inventory
+New and existing characters receive the Act I field kit once: IRCA Model 6 Service Revolver, Combat Knife, Flashlight, Field Journal, 2 Bandages, IRCA Medkit, Bag of Holding, and IRCA Identification. Existing quantities are preserved and are never duplicated beyond the starting amount.
+
+## Master update
+- Notebook ruling aligned beneath typed text
+- Page-flip, Bag of Holding, and Coin Purse open/close audio assets
+- Left launcher icons inset farther from the page edge
+- Dynamic Collapse All / Expand All Character Tome control
+- Consumables Inventory / Used Items two-column transfer board with click and drag support
+
+
+## Audio sources
+The notebook, Bag of Holding, and Gold Purse use real-world public-domain recordings from Wikimedia Commons/PDSounds: Turning a page (planish), Plastic bag (soerena), and Bag of coins (cori). Internet access is required the first time these sounds are loaded.

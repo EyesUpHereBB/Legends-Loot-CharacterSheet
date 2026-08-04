@@ -1,0 +1,19 @@
+REAL-WORLD SOUND EFFECT CREDITS
+
+Notebook page turn
+“Turning a page” by planish / John Rose — Public Domain
+https://commons.wikimedia.org/wiki/File:Turning_a_page.ogg
+
+Bag of Holding cloth movement
+“Plastic Bag” by soerena — Public Domain
+https://commons.wikimedia.org/wiki/File:Plastic_bag.ogg
+
+Gold Purse coins
+“Bag of coins jingling” by cori / Cori Samuel — Public Domain
+https://commons.wikimedia.org/wiki/File:Bag_of_coins.ogg
+
+The application streams these recordings from Wikimedia Commons. An internet connection is needed for the sounds to play.
+
+Bag of Holding open/close sound:
+"Bag Handling Sound Effect - Free Download & No Copyright.mp3" supplied by the project owner.
+Local edited cues: audio/bag-opening.mp3 and audio/bag-closing.mp3.

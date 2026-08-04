@@ -8,11 +8,11 @@
 </head>
 <body>
 <header class="topbar">
-  <div><h1>Project Eldritch: Sunken City</h1><p>Interactive character tracker</p></div>
+  <div class="brand-lockup"><span class="brand-mark" aria-hidden="true">◉</span><div><h1>Project Eldritch</h1><p>Sunken City · Character Workspace</p></div></div>
   <div class="actions">
-    <button id="saveBtn">Save</button><button id="exportBtn">Export</button>
-    <label class="import">Import<input id="importInput" type="file" accept="application/json"></label>
-    <button id="resetBtn" class="danger">Reset</button>
+    <button id="saveBtn" class="primary-action"><span aria-hidden="true">✓</span> Save</button><button id="exportBtn"><span aria-hidden="true">⇩</span> Export</button>
+    <label class="import"><span aria-hidden="true">⇧</span> Import<input id="importInput" type="file" accept="application/json"></label>
+    <button id="resetBtn" class="danger"><span aria-hidden="true">↺</span> Reset</button>
     <button id="soundToggle" class="sound-toggle" type="button" aria-pressed="true" title="Turn sound off"><span aria-hidden="true">🔊</span><span class="sound-toggle-label">Sound on</span></button>
   </div>
 </header>
@@ -82,13 +82,13 @@
   <textarea class="lined-area journal-area" data-key="journal" style="left:91px;top:839px;width:335px;height:137px;line-height:22px"></textarea>
 
   <!-- Draggable Notebook and Backpack replace the printed equipment fields. -->
-  <section class="tool-window notebook-window" id="notebookTool" data-tool="notebook" style="left:205px;top:805px" aria-label="Notebook">
+  <section class="tool-window notebook-window" id="notebookTool" data-tool="notebook" style="left:205px;top:805px" aria-label="Field Journal">
     <header class="tool-header" data-drag-handle>
-      <button class="tool-icon notebook-icon" type="button" data-tool-toggle aria-label="Open or close notebook">
+      <button class="tool-icon notebook-icon" type="button" data-tool-toggle aria-label="Open or close field journal">
         <svg viewBox="0 0 64 64" aria-hidden="true"><path class="icon-leather" d="M14 7h34a7 7 0 0 1 7 7v40H19a8 8 0 0 1-8-8V10a3 3 0 0 1 3-3Z"/><path class="icon-page" d="M19 11h29a3 3 0 0 1 3 3v35H20a5 5 0 0 0-5 5V15a4 4 0 0 1 4-4Z"/><path class="icon-spine" d="M17 8v43"/><path class="icon-strap" d="M43 7v48"/><path class="icon-brass" d="M12 8h8v5h-5v8h-3Zm35 0h7v13h-3v-8h-4ZM12 44h3v8h5v4h-8Zm39 0h3v12h-7v-4h4Z"/><path class="icon-lines" d="M24 21h20M24 28h18M24 35h20"/></svg>
       </button>
       <strong>Field Journal</strong><span class="drag-hint">drag</span>
-      <button class="tool-collapse" type="button" data-tool-toggle aria-label="Collapse notebook">−</button>
+      <button class="tool-collapse" type="button" data-tool-toggle aria-label="Collapse field journal">−</button>
     </header>
     <div class="tool-body notebook-body">
       <div class="editor-toolbar" role="toolbar" aria-label="Note formatting">
@@ -104,11 +104,11 @@
         <button type="button" data-command="undo" title="Undo">↶</button>
         <button type="button" data-command="redo" title="Redo">↷</button>
       </div>
-      <label class="tool-search"><span>Search notebook</span><input type="search" placeholder="Find in this tab…" data-note-search></label>
+      <label class="tool-search"><span>Search field journal</span><input type="search" placeholder="Find in this tab…" data-note-search></label>
       <div class="search-status" data-note-search-status aria-live="polite"></div>
-      <div class="tool-tabs notebook-tabs" role="tablist" aria-label="Notebook tabs" data-tabs-bar>
+      <div class="tool-tabs notebook-tabs" role="tablist" aria-label="Field Journal tabs" data-tabs-bar>
         <div class="tabs-list" data-tabs-list></div>
-        <button class="tab-plus" type="button" data-add-tab aria-label="Add notebook tab" title="Add tab">+</button>
+        <button class="tab-plus" type="button" data-add-tab aria-label="Add field journal tab" title="Add field journal tab">+</button>
       </div>
       <div class="note-editor" contenteditable="true" data-note-editor role="textbox" aria-multiline="true" data-placeholder="Write notes here…"></div>
     </div>
@@ -119,7 +119,7 @@
       <button class="tool-icon backpack-icon" type="button" data-tool-toggle aria-label="Open or close backpack">
         <svg viewBox="0 0 64 64" aria-hidden="true"><path class="pack-roll" d="M18 8h28a5 5 0 0 1 5 5v7H13v-7a5 5 0 0 1 5-5Z"/><path class="pack-body" d="M12 19h40l4 10v23a6 6 0 0 1-6 6H14a6 6 0 0 1-6-6V29Z"/><path class="pack-pocket" d="M18 36h28v17H18z"/><path class="pack-flap" d="M15 20h34l-4 14H19Z"/><path class="pack-strap" d="M20 13v11m24-11v11M25 34v7m14-7v7"/><circle class="pack-buckle" cx="25" cy="42" r="2"/><circle class="pack-buckle" cx="39" cy="42" r="2"/><path class="pack-rope" d="M52 25c8 3 7 13 1 15m-1-10c5 2 4 7 0 9"/><path class="pack-vial" d="M8 33h6v12H8zM9 30h4v3"/></svg>
       </button>
-      <strong>Adventurer Pack</strong><span class="drag-hint">drag</span>
+      <strong>Bag of Holding</strong><span class="drag-hint">drag</span>
       <button class="tool-collapse" type="button" data-tool-toggle aria-label="Collapse backpack">−</button>
     </header>
     <div class="tool-body">
@@ -128,45 +128,56 @@
         <div class="tabs-list" data-tabs-list></div>
         <button class="tab-plus" type="button" data-add-tab aria-label="Add backpack tab" title="Add tab">+</button>
       </div>
-      <div class="tool-list" data-tool-list></div>
-      <button class="tool-add" type="button" data-add-entry>+ Add item</button>
+      <div class="bag-mode-row" role="tablist" aria-label="Bag view">
+        <button class="bag-mode active" type="button" data-bag-mode="inventory">My Inventory</button>
+        <button class="bag-mode" type="button" data-bag-mode="catalog">Find Items</button>
+      </div>
+      <section class="bag-inventory-view" data-bag-view="inventory">
+        <div class="tool-list" data-tool-list></div>
+        <button class="tool-add" type="button" data-add-entry>+ Add custom item</button>
+      </section>
+      <section class="bag-catalog-view" data-bag-view="catalog" hidden>
+        <label class="catalog-search"><span>Search campaign items</span><input type="search" placeholder="Search names, descriptions, effects, talents…" data-catalog-search></label>
+        <div class="catalog-toolbar"><div class="catalog-filters" data-catalog-filters></div><div class="catalog-toolbar-actions"><span class="catalog-count" data-catalog-count></span><button type="button" class="catalog-split-toggle" data-catalog-split-toggle aria-pressed="false">Show Inventory</button></div></div>
+        <div class="catalog-results" data-catalog-results aria-live="polite"></div>
+      </section>
     </div>
   </section>
 
 
-  <section class="tool-window coin-window collapsed" id="coinTool" data-tool="coin" style="left:1175px;top:805px" aria-label="Coin bag">
+  <section class="tool-window coin-window collapsed" id="coinTool" data-tool="coin" style="left:1175px;top:805px" aria-label="Gold purse">
     <header class="tool-header" data-drag-handle>
-      <button class="tool-icon coin-icon" type="button" data-tool-toggle aria-label="Open or close coin bag">
-        <svg viewBox="0 0 64 64" aria-hidden="true">
-          <path class="coin-tie" d="M23 13c4 3 14 3 18 0l-3 9H26Z"/>
-          <path class="coin-mouth" d="M21 20c7 3 15 3 22 0"/>
-          <path class="coin-bag" d="M25 21c-9 8-14 18-12 28 2 9 10 12 19 12s17-3 19-12c2-10-3-20-12-28Z"/>
-          <path class="coin-fold" d="M21 29c7 3 15 3 22 0M18 42c9 4 19 4 28 0"/>
-          <circle class="coin-piece" cx="32" cy="43" r="8"/><path class="coin-mark" d="M32 37v12m-4-9h7a3 3 0 0 1 0 6h-7"/>
+      <button class="tool-icon coin-icon" type="button" data-tool-toggle aria-label="Open or close gold purse">
+        <svg viewBox="0 0 64 64" aria-hidden="true" class="realistic-coin-purse-svg">
+          <ellipse class="purse-shadow" cx="32" cy="56" rx="20" ry="4"/>
+          <path class="purse-neck" d="M22 12c6 3 14 3 20 0l-3 10H25Z"/>
+          <path class="purse-rim" d="M20 20c8 4 16 4 24 0"/>
+          <path class="purse-body" d="M24 21C15 29 10 39 13 49c3 9 11 12 19 12s16-3 19-12c3-10-2-20-11-28-5 2-11 2-16 0Z"/>
+          <path class="purse-folds" d="M22 28c-3 8-4 16-1 24M32 27v29M42 28c3 8 4 16 1 24M17 45c9 5 21 6 30 0"/>
+          <path class="purse-cord" d="M20 18c-5 1-7 5-5 9m29-9c5 1 7 5 5 9"/>
+          <circle class="purse-knot" cx="15" cy="28" r="2.5"/><circle class="purse-knot" cx="49" cy="28" r="2.5"/>
+          <circle class="purse-coin coin-one" cx="27" cy="39" r="7"/>
+          <circle class="purse-coin coin-two" cx="38" cy="42" r="7"/>
+          <path class="purse-coin-mark" d="M27 34v10m-3-7h6m8 0v10m-3-7h6"/>
         </svg>
       </button>
-      <strong>Coin Purse</strong><span class="drag-hint">drag</span>
-      <button class="tool-collapse" type="button" data-tool-toggle aria-label="Collapse coin bag">−</button>
+      <strong>Gold Purse</strong><span class="drag-hint">drag</span>
+      <button class="tool-collapse" type="button" data-tool-toggle aria-label="Collapse gold purse">−</button>
     </header>
-    <div class="tool-body coin-body">
-      <div class="coin-balances" aria-label="Coin balances">
-        <div><span>Gold</span><strong data-coin-balance="gp">0</strong><small>gp</small></div>
-        <div><span>Silver</span><strong data-coin-balance="sp">0</strong><small>sp</small></div>
-        <div><span>Copper</span><strong data-coin-balance="cp">0</strong><small>cp</small></div>
+    <div class="tool-body coin-body gold-only-purse">
+      <section class="gold-balance-card" aria-label="Current gold balance">
+        <span class="gold-balance-icon" aria-hidden="true">🪙</span>
+        <div class="gold-balance-copy"><span>Current Gold</span><strong data-coin-balance="gp">0</strong><small>gold pieces</small></div>
+      </section>
+      <div class="gold-quick-groups" aria-label="Quick gold adjustments">
+        <section class="gold-quick-group remove"><span>Spend</span><div><button type="button" data-coin-change="-10">−10</button><button type="button" data-coin-change="-5">−5</button><button type="button" data-coin-change="-1">−1</button></div></section>
+        <section class="gold-quick-group add"><span>Receive</span><div><button type="button" data-coin-change="1">+1</button><button type="button" data-coin-change="5">+5</button><button type="button" data-coin-change="10">+10</button></div></section>
       </div>
-      <div class="coin-total">Total value: <strong data-coin-total>0 gp</strong></div>
-      <label class="coin-label">Coin type
-        <select data-coin-type><option value="gp">Gold (gp)</option><option value="sp">Silver (sp)</option><option value="cp">Copper (cp)</option></select>
-      </label>
-      <div class="coin-quick" aria-label="Quick coin changes">
-        <button type="button" data-coin-change="-10">−10</button><button type="button" data-coin-change="-5">−5</button><button type="button" data-coin-change="-1">−1</button>
-        <button type="button" data-coin-change="1">+1</button><button type="button" data-coin-change="5">+5</button><button type="button" data-coin-change="10">+10</button>
-      </div>
-      <div class="coin-custom">
-        <label>Amount<input type="number" min="1" step="1" value="1" data-coin-amount></label>
-        <button type="button" data-coin-custom="remove">Remove</button><button type="button" data-coin-custom="add">Add</button>
-      </div>
-      <label class="coin-label">Reason or note<input type="text" maxlength="80" placeholder="Loot, purchase, reward…" data-coin-note></label>
+      <section class="gold-custom-card">
+        <label>Custom amount<input type="number" min="1" step="1" value="1" data-coin-amount inputmode="numeric"></label>
+        <div class="gold-custom-actions"><button type="button" class="gold-remove" data-coin-custom="remove">Remove</button><button type="button" class="gold-add" data-coin-custom="add">Add Gold</button></div>
+      </section>
+      <label class="coin-label gold-note">Reason or note<input type="text" maxlength="80" placeholder="Loot, purchase, reward…" data-coin-note></label>
       <div class="coin-history-head">
         <button type="button" class="history-toggle" data-toggle-coin-history aria-expanded="true"><span class="history-chevron">⌄</span><strong>Collapse History</strong></button>
         <button type="button" data-clear-coin-history>Clear</button>
@@ -175,16 +186,15 @@
     </div>
   </section>
 
-
   <section class="tool-window character-book-window" id="characterBookTool" data-tool="characterBook" style="left:315px;top:105px;width:906px;height:650px" aria-label="Character book">
     <header class="tool-header" data-drag-handle>
       <button class="tool-icon character-book-icon" type="button" data-tool-toggle aria-label="Open or close character book">
         <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path class="book-ribbon" d="M40 11v45l-4-4-4 4V11"/>
           <path class="book-cover" d="M10 9h34a9 9 0 0 1 9 9v38H19a9 9 0 0 1-9-9Z"/>
           <path class="book-paper" d="M17 13h28a4 4 0 0 1 4 4v34H20a6 6 0 0 0-6 6V18a5 5 0 0 1 3-5Z"/>
           <path class="book-spine" d="M17 10v43"/><path class="book-corners" d="M10 10h10v5h-5v8h-5Zm34 0h8v13h-4v-8h-4ZM10 45h5v7h6v5H10Zm38 0h4v12h-9v-5h5Z"/>
           <path class="book-crest" d="M31 22l8 4v8c0 7-4 11-8 14-4-3-8-7-8-14v-8Z"/><path class="book-crest-mark" d="M27 31h8m-4-4v12"/>
-          <path class="book-ribbon" d="M40 11v45l-4-4-4 4V11"/>
         </svg>
       </button>
       <strong>Character Tome</strong><span class="drag-hint">drag</span>
@@ -258,7 +268,12 @@
         </div>
         <div class="health-control-panel">
           <div class="health-panel-heading"><div><span>Health &amp; Status</span><small data-book-temp>No temporary HP</small></div><strong data-book-health-percent>0%</strong></div>
-          <div class="book-hp-buttons"><button type="button" data-book-hp="-10">−10</button><button type="button" data-book-hp="-5">−5</button><button type="button" data-book-hp="-1">−1</button><button type="button" data-book-hp="1">+1</button><button type="button" data-book-hp="5">+5</button><button type="button" data-book-hp="10">+10</button></div>
+          <div class="book-hp-buttons" aria-label="Quick current health controls"><button type="button" data-book-hp="-10">−10</button><button type="button" data-book-hp="-5">−5</button><button type="button" data-book-hp="-1">−1</button><button type="button" data-book-hp="1">+1</button><button type="button" data-book-hp="5">+5</button><button type="button" data-book-hp="10">+10</button></div>
+          <div class="temp-hp-quick" aria-label="Quick temporary health controls">
+            <div class="temp-hp-quick-label"><span>Temporary HP</span><small>Shield damage before current HP</small></div>
+            <div class="temp-hp-buttons temp-hp-remove"><button type="button" data-book-temp-hp="-10" aria-label="Remove 10 temporary HP">−10</button><button type="button" data-book-temp-hp="-5" aria-label="Remove 5 temporary HP">−5</button><button type="button" data-book-temp-hp="-1" aria-label="Remove 1 temporary HP">−1</button></div>
+            <div class="temp-hp-buttons temp-hp-add"><button type="button" data-book-temp-hp="1" aria-label="Add 1 temporary HP">+1</button><button type="button" data-book-temp-hp="5" aria-label="Add 5 temporary HP">+5</button><button type="button" data-book-temp-hp="10" aria-label="Add 10 temporary HP">+10</button></div>
+          </div>
           <button type="button" class="health-reset-conditions" data-reset-conditions>↺ Reset Conditions</button>
           <div class="health-fields">
             <label>Current HP<input type="number" min="0" data-book-field="currentHealth"></label>
@@ -273,7 +288,7 @@
         </div>
       </div>
       <div class="book-tabs" aria-label="Character book section toggles">
-        <button type="button" data-book-tab="overview" aria-pressed="true">Overview</button><button type="button" data-book-tab="attributes" aria-pressed="true">Attributes</button><button type="button" data-book-tab="combat" aria-pressed="false">Combat</button><button type="button" data-book-tab="resistances" aria-pressed="false">Resistances</button><button type="button" data-book-tab="conditions" aria-pressed="false">Conditions</button><button type="button" data-book-tab="biography" aria-pressed="false">Biography</button><button type="button" data-book-tab="equipment" aria-pressed="false">Loadout</button><button type="button" data-book-tab="quips" aria-pressed="false">Quips</button><button type="button" class="book-collapse-all" data-book-collapse-all title="Collapse all Tome sections"><span aria-hidden="true">⇱</span> Collapse All</button><button type="button" class="book-return-top" data-book-return-top title="Return to health and status"><span aria-hidden="true">↑</span> Top</button>
+        <button type="button" data-book-tab="overview" aria-pressed="true">Overview</button><button type="button" data-book-tab="attributes" aria-pressed="true">Attributes</button><button type="button" data-book-tab="combat" aria-pressed="false">Combat</button><button type="button" data-book-tab="resistances" aria-pressed="false">Resistances</button><button type="button" data-book-tab="conditions" aria-pressed="false">Conditions</button><button type="button" data-book-tab="biography" aria-pressed="false">Biography</button><button type="button" data-book-tab="equipment" aria-pressed="false">Loadout</button><button type="button" class="book-collapse-all" data-book-collapse-all title="Collapse all Tome sections">Collapse All</button><button type="button" class="book-return-top" data-book-return-top title="Return to health and status"><span aria-hidden="true">↑</span> Top</button>
       </div>
       <div class="book-pages" data-book-pages>
         <section class="book-page" data-book-page="overview">
@@ -291,7 +306,7 @@
           </div>
         </section>
         <section class="book-page" data-book-page="equipment">
-          <button class="book-section-heading" type="button" data-book-section-toggle="equipment" aria-expanded="false"><span>🧍 Character Loadout</span><span class="book-chevron">›</span></button>
+          <button class="book-section-heading" type="button" data-book-section-toggle="equipment" aria-expanded="false"><span>Character Loadout</span><span class="book-chevron">›</span></button>
           <div class="book-section-content" hidden>
             <p class="loadout-intro">Record what is actively equipped. These slots are separate from the Backpack so players can see their current build at a glance.</p>
             <div class="character-loadout" aria-label="Equipped character items">
@@ -345,7 +360,7 @@
         <section class="book-page" data-book-page="resistances">
           <button class="book-section-heading" type="button" data-book-section-toggle="resistances" aria-expanded="false"><span>Resistances & Saves</span><span class="book-chevron">›</span></button>
           <div class="book-section-content" hidden><div class="book-grid two">
-            <label>Physical<input type="number" data-book-field="physicalResist"></label><label>Corruption<input type="number" data-book-field="corruptionResist"></label><label>Psychic<input type="number" data-book-field="psychicResist"></label><label>Fear<input type="number" data-book-field="fearResist"></label><label>Disease<input type="number" data-book-field="diseaseResist"></label><label><span data-book-other-label>Other</span><input type="text" placeholder="Resistance name" data-book-field="otherResistLabel"><input type="number" data-book-field="otherResist"></label>
+            <label><span class="resistance-label"><span aria-hidden="true">🛡️</span> Physical</span><input type="number" data-book-field="physicalResist"></label><label><span class="resistance-label"><span aria-hidden="true">🜏</span> Corruption</span><input type="number" data-book-field="corruptionResist"></label><label><span class="resistance-label"><span aria-hidden="true">🧠</span> Psychic</span><input type="number" data-book-field="psychicResist"></label><label><span class="resistance-label"><span aria-hidden="true">👁️</span> Fear</span><input type="number" data-book-field="fearResist"></label><label><span class="resistance-label"><span aria-hidden="true">🦠</span> Disease</span><input type="number" data-book-field="diseaseResist"></label><label><span class="resistance-label"><span aria-hidden="true">✦</span> <span data-book-other-label>Other</span></span><input type="text" placeholder="Resistance name" data-book-field="otherResistLabel"><input type="number" data-book-field="otherResist"></label>
           </div></div>
         </section>
         <section class="book-page" data-book-page="conditions">
@@ -361,19 +376,6 @@
         <section class="book-page" data-book-page="biography">
           <button class="book-section-heading" type="button" data-book-section-toggle="biography" aria-expanded="false"><span>Biography & Sheet Notes</span><span class="book-chevron">›</span></button>
           <div class="book-section-content" hidden><label class="book-long-field">Appearance<textarea data-book-field="appearance"></textarea></label><label class="book-long-field">Notes<textarea data-book-field="notes"></textarea></label><label class="book-long-field">Journal<textarea data-book-field="journal"></textarea></label></div>
-        </section>
-        <section class="book-page" data-book-page="quips">
-          <button class="book-section-heading" type="button" data-book-section-toggle="quips" aria-expanded="false"><span>🎭 Character Quips</span><span class="book-chevron">›</span></button>
-          <div class="book-section-content" hidden>
-            <p class="quips-intro">Generate in-character lines using the occupation, origin, appearance, notes, and journal written in the Biography section.</p>
-            <div class="quip-controls"><label>Situation or prompt (optional)<input type="text" data-quip-prompt placeholder="After surviving a narrow escape…"></label><button type="button" data-generate-quip><span aria-hidden="true">🎲</span> Generate Quip</button></div>
-            <blockquote class="generated-quip" data-generated-quip>Write a little biography, then generate your character’s first quip.</blockquote>
-            <div class="quip-history-head">
-              <button type="button" class="history-toggle" data-toggle-quip-history aria-expanded="true"><span class="history-chevron">⌄</span><strong>Recent quips</strong></button>
-              <button type="button" data-clear-quips>Clear</button>
-            </div>
-            <div class="quip-history collapsible-history" data-quip-history></div>
-          </div>
         </section>
       </div>
     </div>
