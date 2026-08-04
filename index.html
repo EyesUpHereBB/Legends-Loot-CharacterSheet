@@ -13,9 +13,22 @@
     <button id="saveBtn">Save</button><button id="exportBtn">Export</button>
     <label class="import">Import<input id="importInput" type="file" accept="application/json"></label>
     <button id="resetBtn" class="danger">Reset</button>
+    <button id="soundToggle" class="sound-toggle" type="button" aria-pressed="true" title="Turn sound off"><span aria-hidden="true">🔊</span><span class="sound-toggle-label">Sound on</span></button>
   </div>
 </header>
-<main><div class="scroller"><div id="sheet" class="sheet">
+<main><div class="scroller"><div id="sheet" class="sheet desk-layout">
+  <div class="desk-heading" aria-hidden="true">
+    <span class="desk-kicker">PROJECT ELDRITCH</span>
+    <strong>Adventurer’s Field Desk</strong>
+    <small>Character Tome · Journal · Backpack · Coin Purse</small>
+  </div>
+  <div class="desk-sigil" aria-hidden="true"><span>SC</span></div>
+  <div class="desk-dock" aria-hidden="true">
+    <span class="dock-title">FIELD TOOLS</span>
+    <span class="dock-slot slot-journal">Journal</span>
+    <span class="dock-slot slot-pack">Backpack</span>
+    <span class="dock-slot slot-coins">Coin Purse</span>
+  </div>
   <!-- Identity: positioned to the printed writing lines -->
   <input class="line-field" data-key="name" style="left:543px;top:43px;width:336px;height:20px">
   <input class="line-field" data-key="player" style="left:543px;top:76px;width:336px;height:20px">
@@ -47,12 +60,14 @@
   <input class="box-number attribute" type="number" data-key="charisma" style="left:371px;top:715px;width:55px;height:52px">
 
   <!-- Combat boxes -->
-  <input class="box-number combat-wide" type="number" data-key="currentHealth" style="left:487px;top:431px;width:253px;height:40px">
-  <input class="box-number combat-wide" type="number" data-key="maxHealth" style="left:758px;top:431px;width:91px;height:40px">
+  <input class="box-number combat-wide" type="number" data-key="currentHealth" min="0" style="left:487px;top:431px;width:115px;height:40px">
+  <input class="box-number combat-wide temp-health-field" type="number" data-key="tempHealth" min="0" style="left:610px;top:431px;width:111px;height:40px">
+  <input class="box-number combat-wide" type="number" data-key="maxHealth" min="0" style="left:729px;top:431px;width:120px;height:40px">
   <input class="box-number combat" type="number" data-key="armorClass" style="left:533px;top:522px;width:121px;height:42px">
   <input class="box-number combat" type="number" data-key="initiative" style="left:745px;top:522px;width:104px;height:42px">
   <input class="box-number combat" type="number" data-key="movement" style="left:533px;top:618px;width:121px;height:42px">
   <input class="box-number combat" type="number" data-key="infectionLevel" min="0" max="10" style="left:745px;top:618px;width:104px;height:42px">
+  <input type="hidden" data-key="inspirationPoints" value="0">
 
   <!-- Saves / resistances -->
   <input class="box-number resist" type="number" data-key="physicalResist" style="left:606px;top:752px;width:38px;height:35px">
@@ -66,20 +81,308 @@
   <!-- Journal: line spacing matches the six printed rows -->
   <textarea class="lined-area journal-area" data-key="journal" style="left:91px;top:839px;width:335px;height:137px;line-height:22px"></textarea>
 
-  <!-- Equipment: separate fields keep names, damage, AC and quantities in their printed columns -->
-  <textarea class="lined-area inventory" data-key="weapons" style="left:910px;top:438px;width:181px;height:132px;line-height:21px"></textarea>
-  <textarea class="lined-area inventory narrow" data-key="weaponDamage" style="left:1110px;top:438px;width:48px;height:132px;line-height:21px"></textarea>
-  <textarea class="lined-area inventory" data-key="armor" style="left:1187px;top:438px;width:204px;height:132px;line-height:21px"></textarea>
-  <textarea class="lined-area inventory narrow" data-key="armorAC" style="left:1401px;top:438px;width:36px;height:132px;line-height:21px"></textarea>
-  <textarea class="lined-area inventory" data-key="accessories" style="left:910px;top:646px;width:227px;height:132px;line-height:21px"></textarea>
-  <textarea class="lined-area inventory" data-key="consumables" style="left:1187px;top:646px;width:204px;height:132px;line-height:21px"></textarea>
-  <textarea class="lined-area inventory narrow" data-key="consumableQty" style="left:1401px;top:646px;width:36px;height:132px;line-height:21px"></textarea>
-  <textarea class="lined-area inventory" data-key="questItems" style="left:910px;top:852px;width:527px;height:132px;line-height:21px"></textarea>
+  <!-- Draggable Notebook and Backpack replace the printed equipment fields. -->
+  <section class="tool-window notebook-window" id="notebookTool" data-tool="notebook" style="left:205px;top:805px" aria-label="Notebook">
+    <header class="tool-header" data-drag-handle>
+      <button class="tool-icon notebook-icon" type="button" data-tool-toggle aria-label="Open or close notebook">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path class="icon-leather" d="M14 7h34a7 7 0 0 1 7 7v40H19a8 8 0 0 1-8-8V10a3 3 0 0 1 3-3Z"/><path class="icon-page" d="M19 11h29a3 3 0 0 1 3 3v35H20a5 5 0 0 0-5 5V15a4 4 0 0 1 4-4Z"/><path class="icon-spine" d="M17 8v43"/><path class="icon-strap" d="M43 7v48"/><path class="icon-brass" d="M12 8h8v5h-5v8h-3Zm35 0h7v13h-3v-8h-4ZM12 44h3v8h5v4h-8Zm39 0h3v12h-7v-4h4Z"/><path class="icon-lines" d="M24 21h20M24 28h18M24 35h20"/></svg>
+      </button>
+      <strong>Field Journal</strong><span class="drag-hint">drag</span>
+      <button class="tool-collapse" type="button" data-tool-toggle aria-label="Collapse notebook">−</button>
+    </header>
+    <div class="tool-body notebook-body">
+      <div class="editor-toolbar" role="toolbar" aria-label="Note formatting">
+        <button type="button" data-command="bold" title="Bold"><b>B</b></button>
+        <button type="button" data-command="italic" title="Italic"><i>I</i></button>
+        <button type="button" data-command="underline" title="Underline"><u>U</u></button>
+        <button type="button" data-command="formatBlock" data-value="h2" title="Heading">H</button>
+        <button type="button" data-command="insertUnorderedList" title="Bullet list">• List</button>
+        <button type="button" data-command="insertOrderedList" title="Numbered list">1. List</button>
+        <button type="button" data-checklist title="Checklist">☐</button>
+        <button type="button" data-command="indent" title="Indent">→</button>
+        <button type="button" data-command="outdent" title="Outdent">←</button>
+        <button type="button" data-command="undo" title="Undo">↶</button>
+        <button type="button" data-command="redo" title="Redo">↷</button>
+      </div>
+      <label class="tool-search"><span>Search notebook</span><input type="search" placeholder="Find in this tab…" data-note-search></label>
+      <div class="search-status" data-note-search-status aria-live="polite"></div>
+      <div class="tool-tabs notebook-tabs" role="tablist" aria-label="Notebook tabs" data-tabs-bar>
+        <div class="tabs-list" data-tabs-list></div>
+        <button class="tab-plus" type="button" data-add-tab aria-label="Add notebook tab" title="Add tab">+</button>
+      </div>
+      <div class="note-editor" contenteditable="true" data-note-editor role="textbox" aria-multiline="true" data-placeholder="Write notes here…"></div>
+    </div>
+  </section>
 
-  <aside class="dock"><h2>Quick Controls</h2><div class="hp"><button data-hp="-5">−5</button><button data-hp="-1">−1</button><button data-hp="1">+1</button><button data-hp="5">+5</button></div>
-    <div class="bar"><div id="healthFill"></div></div><p id="healthText">0 / 0 HP</p>
+  <section class="tool-window backpack-window" id="backpackTool" data-tool="backpack" style="left:690px;top:805px" aria-label="Backpack">
+    <header class="tool-header" data-drag-handle>
+      <button class="tool-icon backpack-icon" type="button" data-tool-toggle aria-label="Open or close backpack">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path class="pack-roll" d="M18 8h28a5 5 0 0 1 5 5v7H13v-7a5 5 0 0 1 5-5Z"/><path class="pack-body" d="M12 19h40l4 10v23a6 6 0 0 1-6 6H14a6 6 0 0 1-6-6V29Z"/><path class="pack-pocket" d="M18 36h28v17H18z"/><path class="pack-flap" d="M15 20h34l-4 14H19Z"/><path class="pack-strap" d="M20 13v11m24-11v11M25 34v7m14-7v7"/><circle class="pack-buckle" cx="25" cy="42" r="2"/><circle class="pack-buckle" cx="39" cy="42" r="2"/><path class="pack-rope" d="M52 25c8 3 7 13 1 15m-1-10c5 2 4 7 0 9"/><path class="pack-vial" d="M8 33h6v12H8zM9 30h4v3"/></svg>
+      </button>
+      <strong>Adventurer Pack</strong><span class="drag-hint">drag</span>
+      <button class="tool-collapse" type="button" data-tool-toggle aria-label="Collapse backpack">−</button>
+    </header>
+    <div class="tool-body">
+      <label class="tool-search"><span>Search</span><input type="search" placeholder="Search backpack…" data-tool-search></label>
+      <div class="tool-tabs backpack-tabs" role="tablist" aria-label="Backpack tabs" data-tabs-bar>
+        <div class="tabs-list" data-tabs-list></div>
+        <button class="tab-plus" type="button" data-add-tab aria-label="Add backpack tab" title="Add tab">+</button>
+      </div>
+      <div class="tool-list" data-tool-list></div>
+      <button class="tool-add" type="button" data-add-entry>+ Add item</button>
+    </div>
+  </section>
+
+
+  <section class="tool-window coin-window collapsed" id="coinTool" data-tool="coin" style="left:1175px;top:805px" aria-label="Coin bag">
+    <header class="tool-header" data-drag-handle>
+      <button class="tool-icon coin-icon" type="button" data-tool-toggle aria-label="Open or close coin bag">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path class="coin-tie" d="M23 13c4 3 14 3 18 0l-3 9H26Z"/>
+          <path class="coin-mouth" d="M21 20c7 3 15 3 22 0"/>
+          <path class="coin-bag" d="M25 21c-9 8-14 18-12 28 2 9 10 12 19 12s17-3 19-12c2-10-3-20-12-28Z"/>
+          <path class="coin-fold" d="M21 29c7 3 15 3 22 0M18 42c9 4 19 4 28 0"/>
+          <circle class="coin-piece" cx="32" cy="43" r="8"/><path class="coin-mark" d="M32 37v12m-4-9h7a3 3 0 0 1 0 6h-7"/>
+        </svg>
+      </button>
+      <strong>Coin Purse</strong><span class="drag-hint">drag</span>
+      <button class="tool-collapse" type="button" data-tool-toggle aria-label="Collapse coin bag">−</button>
+    </header>
+    <div class="tool-body coin-body">
+      <div class="coin-balances" aria-label="Coin balances">
+        <div><span>Gold</span><strong data-coin-balance="gp">0</strong><small>gp</small></div>
+        <div><span>Silver</span><strong data-coin-balance="sp">0</strong><small>sp</small></div>
+        <div><span>Copper</span><strong data-coin-balance="cp">0</strong><small>cp</small></div>
+      </div>
+      <div class="coin-total">Total value: <strong data-coin-total>0 gp</strong></div>
+      <label class="coin-label">Coin type
+        <select data-coin-type><option value="gp">Gold (gp)</option><option value="sp">Silver (sp)</option><option value="cp">Copper (cp)</option></select>
+      </label>
+      <div class="coin-quick" aria-label="Quick coin changes">
+        <button type="button" data-coin-change="-10">−10</button><button type="button" data-coin-change="-5">−5</button><button type="button" data-coin-change="-1">−1</button>
+        <button type="button" data-coin-change="1">+1</button><button type="button" data-coin-change="5">+5</button><button type="button" data-coin-change="10">+10</button>
+      </div>
+      <div class="coin-custom">
+        <label>Amount<input type="number" min="1" step="1" value="1" data-coin-amount></label>
+        <button type="button" data-coin-custom="remove">Remove</button><button type="button" data-coin-custom="add">Add</button>
+      </div>
+      <label class="coin-label">Reason or note<input type="text" maxlength="80" placeholder="Loot, purchase, reward…" data-coin-note></label>
+      <div class="coin-history-head">
+        <button type="button" class="history-toggle" data-toggle-coin-history aria-expanded="true"><span class="history-chevron">⌄</span><strong>Collapse History</strong></button>
+        <button type="button" data-clear-coin-history>Clear</button>
+      </div>
+      <div class="coin-history collapsible-history" data-coin-history aria-live="polite"></div>
+    </div>
+  </section>
+
+
+  <section class="tool-window character-book-window" id="characterBookTool" data-tool="characterBook" style="left:315px;top:105px;width:906px;height:650px" aria-label="Character book">
+    <header class="tool-header" data-drag-handle>
+      <button class="tool-icon character-book-icon" type="button" data-tool-toggle aria-label="Open or close character book">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path class="book-cover" d="M10 9h34a9 9 0 0 1 9 9v38H19a9 9 0 0 1-9-9Z"/>
+          <path class="book-paper" d="M17 13h28a4 4 0 0 1 4 4v34H20a6 6 0 0 0-6 6V18a5 5 0 0 1 3-5Z"/>
+          <path class="book-spine" d="M17 10v43"/><path class="book-corners" d="M10 10h10v5h-5v8h-5Zm34 0h8v13h-4v-8h-4ZM10 45h5v7h6v5H10Zm38 0h4v12h-9v-5h5Z"/>
+          <path class="book-crest" d="M31 22l8 4v8c0 7-4 11-8 14-4-3-8-7-8-14v-8Z"/><path class="book-crest-mark" d="M27 31h8m-4-4v12"/>
+          <path class="book-ribbon" d="M40 11v45l-4-4-4 4V11"/>
+        </svg>
+      </button>
+      <strong>Character Tome</strong><span class="drag-hint">drag</span>
+      <button class="tool-collapse" type="button" data-tool-toggle aria-label="Collapse character book">−</button>
+    </header>
+    <div class="tool-body character-book-body">
+      <div class="book-quick-ribbon redesigned-health" aria-label="Quick health and status controls">
+        <div class="bio-panel-overlay" aria-hidden="true">
+          <div class="margin-infection-tissue"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <svg class="margin-infection-veins" viewBox="0 0 900 250" preserveAspectRatio="none">
+            <path class="margin-vein mv-a" d="M0 34 C72 30 87 74 151 72 S239 122 296 112 S366 73 427 98"/>
+            <path class="margin-vein mv-b" d="M900 26 C824 29 796 81 735 70 S647 117 590 107 S525 68 468 98"/>
+            <path class="margin-vein mv-c" d="M0 218 C79 216 104 179 166 187 S253 146 316 158 S377 190 438 164"/>
+            <path class="margin-vein mv-d" d="M900 220 C822 218 799 177 734 187 S646 145 585 159 S522 192 463 165"/>
+            <path class="margin-vein branch mv-e" d="M73 45 C95 77 118 83 154 73 M122 71 C141 104 167 115 205 111"/>
+            <path class="margin-vein branch mv-f" d="M826 44 C802 77 779 83 742 72 M780 72 C760 105 734 115 697 109"/>
+            <path class="margin-vein branch mv-g" d="M72 211 C98 179 121 174 164 188 M128 183 C150 151 176 145 217 152"/>
+            <path class="margin-vein branch mv-h" d="M828 211 C802 179 779 174 736 188 M772 183 C750 151 724 145 683 152"/>
+          </svg>
+          <div class="margin-spore-field"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
+          <i></i><i></i><i></i><i></i><i></i><span></span><span></span><span></span>
+        </div>
+        <div class="health-visual-column">
+        <div class="health-orbit" role="progressbar" aria-label="Character health and current status" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" data-book-health-bar>
+          <svg class="health-ring-svg" viewBox="0 0 160 160" aria-hidden="true">
+            <circle class="health-ring-track" cx="80" cy="80" r="69"></circle>
+            <g class="infection-sprite-layer" aria-hidden="true">
+              <path class="infection-sprite sprite-a" d="M22 61c7-20 18-33 37-42 8-4 15 5 9 11-12 11-21 23-25 39-2 8-23 2-21-8Z"></path>
+              <path class="infection-sprite sprite-b" d="M101 20c18 6 31 18 39 34 4 8-6 15-12 9-10-10-20-17-34-21-9-3-2-25 7-22Z"></path>
+              <path class="infection-sprite sprite-c" d="M139 91c-4 20-15 35-31 45-8 5-16-4-10-11 9-11 16-23 18-38 2-9 25-5 23 4Z"></path>
+              <path class="infection-sprite sprite-d" d="M60 139c-18-5-32-16-41-32-5-8 4-16 11-10 11 9 22 15 36 18 9 2 3 27-6 24Z"></path>
+              <path class="infection-sprite-vein vein-a" d="M28 61c11 2 17 8 23 17 5 8 12 9 21 10"></path>
+              <path class="infection-sprite-vein vein-b" d="M112 31c-7 9-8 17-5 27 2 8-3 14-10 20"></path>
+              <path class="infection-sprite-vein vein-c" d="M129 108c-10-3-18-1-25 6-6 6-14 6-23 4"></path>
+              <path class="infection-sprite-vein vein-d" d="M46 128c5-9 5-17 1-26-4-8 0-15 6-22"></path>
+              <path class="infection-root root-a" d="M12 47 C32 49 43 58 54 72 C63 82 69 87 80 89"></path>
+              <path class="infection-root root-b" d="M46 10 C51 31 58 43 69 57 C76 65 79 72 80 82"></path>
+              <path class="infection-root root-c" d="M117 13 C110 33 103 45 92 58 C85 66 82 73 80 82"></path>
+              <path class="infection-root root-d" d="M149 51 C130 52 117 60 105 72 C96 81 89 86 80 89"></path>
+              <path class="infection-root root-e" d="M149 112 C128 107 115 103 102 96 C93 91 87 89 80 89"></path>
+              <path class="infection-root root-f" d="M111 149 C107 130 100 117 91 105 C85 97 82 93 80 89"></path>
+              <path class="infection-root root-g" d="M51 149 C52 129 59 116 68 104 C75 96 78 92 80 89"></path>
+              <path class="infection-root root-h" d="M11 110 C31 106 44 101 56 95 C66 90 72 88 80 89"></path>
+              <g class="infection-microbes">
+                <circle cx="31" cy="42" r="2.4"></circle><circle cx="48" cy="29" r="1.8"></circle>
+                <circle cx="72" cy="22" r="2.1"></circle><circle cx="108" cy="31" r="2.6"></circle>
+                <circle cx="129" cy="51" r="1.7"></circle><circle cx="137" cy="82" r="2.2"></circle>
+                <circle cx="126" cy="116" r="2.7"></circle><circle cx="99" cy="133" r="1.8"></circle>
+                <circle cx="66" cy="139" r="2.3"></circle><circle cx="39" cy="123" r="1.9"></circle>
+                <circle cx="24" cy="93" r="2.5"></circle><circle cx="25" cy="67" r="1.7"></circle>
+              </g>
+            </g>
+            <circle class="health-ring-value" data-health-ring-value cx="80" cy="80" r="69"></circle>
+            <circle class="health-ring-temp" data-health-ring-temp cx="80" cy="80" r="61"></circle>
+          </svg>
+          <div class="health-orbit-core" data-status-core>
+            <span class="status-symbol" data-status-symbol>♥</span>
+            <strong data-book-health>0 / 0</strong>
+            <small>HP</small>
+            <span class="status-name" data-status-name>Stable</span>
+          </div>
+          <div class="status-particles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="status-orbit-badges" data-status-orbit-badges aria-label="Active status conditions"></div>
+        </div>
+        <div class="orbit-stat-list" aria-label="Editable character combat statistics">
+          <div class="orbit-stat"><span class="orbit-stat-icon" aria-hidden="true">🛡️</span><span class="orbit-stat-label">Armor Class</span><div class="orbit-stat-stepper"><button type="button" data-stat-step="armorClass:-1" aria-label="Decrease Armor Class">−</button><input type="number" inputmode="numeric" data-book-field="armorClass" aria-label="Armor Class"><button type="button" data-stat-step="armorClass:1" aria-label="Increase Armor Class">+</button></div></div>
+          <div class="orbit-stat"><span class="orbit-stat-icon" aria-hidden="true">🥾</span><span class="orbit-stat-label">Movement (ft.)</span><div class="orbit-stat-stepper"><button type="button" data-stat-step="movement:-1" aria-label="Decrease Movement">−</button><input type="number" inputmode="numeric" data-book-field="movement" aria-label="Movement in feet"><button type="button" data-stat-step="movement:1" aria-label="Increase Movement">+</button></div></div>
+          <div class="orbit-stat"><span class="orbit-stat-icon" aria-hidden="true">⚔️</span><span class="orbit-stat-label">Initiative</span><div class="orbit-stat-stepper"><button type="button" data-stat-step="initiative:-1" aria-label="Decrease Initiative">−</button><input type="number" inputmode="numeric" data-book-field="initiative" aria-label="Initiative"><button type="button" data-stat-step="initiative:1" aria-label="Increase Initiative">+</button></div></div>
+          <div class="orbit-stat"><span class="orbit-stat-icon" aria-hidden="true">☣️</span><span class="orbit-stat-label">Infection</span><div class="orbit-stat-stepper"><button type="button" data-stat-step="infectionLevel:-1" aria-label="Decrease Infection">−</button><input type="number" min="0" max="10" inputmode="numeric" data-book-field="infectionLevel" aria-label="Infection level"><button type="button" data-stat-step="infectionLevel:1" aria-label="Increase Infection">+</button></div></div>
+        </div>
+        </div>
+        <div class="health-control-panel">
+          <div class="health-panel-heading"><div><span>Health &amp; Status</span><small data-book-temp>No temporary HP</small></div><strong data-book-health-percent>0%</strong></div>
+          <div class="book-hp-buttons"><button type="button" data-book-hp="-10">−10</button><button type="button" data-book-hp="-5">−5</button><button type="button" data-book-hp="-1">−1</button><button type="button" data-book-hp="1">+1</button><button type="button" data-book-hp="5">+5</button><button type="button" data-book-hp="10">+10</button></div>
+          <button type="button" class="health-reset-conditions" data-reset-conditions>↺ Reset Conditions</button>
+          <div class="health-fields">
+            <label>Current HP<input type="number" min="0" data-book-field="currentHealth"></label>
+            <label>Temp HP<input type="number" min="0" data-book-field="tempHealth"></label>
+            <label>Max HP<input type="number" min="0" data-book-field="maxHealth"></label>
+          </div>
+          <div class="inspiration-panel" aria-label="Inspiration points">
+            <div><strong>✨ Inspiration Points</strong><small>Tap stars to set the amount</small></div>
+            <div class="inspiration-stars" data-inspiration-stars></div>
+          </div>
+          <div class="active-status-chips" data-active-statuses aria-live="polite"></div>
+        </div>
+      </div>
+      <div class="book-tabs" aria-label="Character book section toggles">
+        <button type="button" data-book-tab="overview" aria-pressed="true">Overview</button><button type="button" data-book-tab="attributes" aria-pressed="true">Attributes</button><button type="button" data-book-tab="combat" aria-pressed="false">Combat</button><button type="button" data-book-tab="resistances" aria-pressed="false">Resistances</button><button type="button" data-book-tab="conditions" aria-pressed="false">Conditions</button><button type="button" data-book-tab="biography" aria-pressed="false">Biography</button><button type="button" data-book-tab="equipment" aria-pressed="false">Loadout</button><button type="button" data-book-tab="quips" aria-pressed="false">Quips</button><button type="button" class="book-collapse-all" data-book-collapse-all title="Collapse all Tome sections"><span aria-hidden="true">⇱</span> Collapse All</button><button type="button" class="book-return-top" data-book-return-top title="Return to health and status"><span aria-hidden="true">↑</span> Top</button>
+      </div>
+      <div class="book-pages" data-book-pages>
+        <section class="book-page" data-book-page="overview">
+          <button class="book-section-heading" type="button" data-book-section-toggle="overview" aria-expanded="true"><span>Character Overview</span><span class="book-chevron">⌄</span></button>
+          <div class="book-section-content">
+            <div class="book-grid two">
+              <label>Name<input data-book-field="name"></label><label>Player<input data-book-field="player"></label><label>Occupation / Class<input data-book-field="occupation"></label><label>Age<input data-book-field="age"></label><label>Background<input data-book-field="background"></label><label>Origin<input data-book-field="origin"></label>
+            </div>
+            <div class="book-stat-strip editable-stats">
+              <label><span>🛡️ Armor Class</span><input type="number" data-book-field="armorClass"></label>
+              <label><span>⚔️ Initiative</span><input type="number" data-book-field="initiative"></label>
+              <label><span>🥾 Movement</span><input type="number" data-book-field="movement"></label>
+              <label><span>☣️ Infection</span><input type="number" min="0" max="10" data-book-field="infectionLevel"></label>
+            </div>
+          </div>
+        </section>
+        <section class="book-page" data-book-page="equipment">
+          <button class="book-section-heading" type="button" data-book-section-toggle="equipment" aria-expanded="false"><span>🧍 Character Loadout</span><span class="book-chevron">›</span></button>
+          <div class="book-section-content" hidden>
+            <p class="loadout-intro">Record what is actively equipped. These slots are separate from the Backpack so players can see their current build at a glance.</p>
+            <div class="character-loadout" aria-label="Equipped character items">
+              <div class="loadout-column loadout-left">
+                <label><span>⚔️ Main Hand</span><input type="text" data-equipment-slot="mainHand" list="backpack-item-options" placeholder="Weapon"></label>
+                <label><span>🛡️ Off Hand</span><input type="text" data-equipment-slot="offHand" list="backpack-item-options" placeholder="Shield or weapon"></label>
+                <label><span>✨ Ability I</span><input type="text" data-equipment-slot="ability1" placeholder="Active ability"></label>
+                <label><span>✨ Ability II</span><input type="text" data-equipment-slot="ability2" placeholder="Active ability"></label>
+              </div>
+              <div class="loadout-figure" aria-hidden="true">
+                <div class="figure-aura"></div>
+                <div class="figure-head"></div><div class="figure-body"></div><div class="figure-arm left"></div><div class="figure-arm right"></div><div class="figure-leg left"></div><div class="figure-leg right"></div>
+                <span class="figure-slot head">Head</span><span class="figure-slot chest">Armor</span><span class="figure-slot hands">Hands</span><span class="figure-slot feet">Feet</span>
+              </div>
+              <div class="loadout-column loadout-right">
+                <label><span>🪖 Head</span><input type="text" data-equipment-slot="head" list="backpack-item-options" placeholder="Headgear"></label>
+                <label><span>🥋 Body Armor</span><input type="text" data-equipment-slot="body" list="backpack-item-options" placeholder="Armor"></label>
+                <label><span>🧤 Hands</span><input type="text" data-equipment-slot="hands" list="backpack-item-options" placeholder="Gloves"></label>
+                <label><span>🥾 Feet</span><input type="text" data-equipment-slot="feet" list="backpack-item-options" placeholder="Boots"></label>
+              </div>
+              <div class="loadout-bottom">
+                <label><span>💠 Trinket I</span><input type="text" data-equipment-slot="trinket1" list="backpack-item-options" placeholder="Trinket"></label>
+                <label><span>💠 Trinket II</span><input type="text" data-equipment-slot="trinket2" list="backpack-item-options" placeholder="Trinket"></label>
+                <label><span>🧿 Trinket III</span><input type="text" data-equipment-slot="trinket3" list="backpack-item-options" placeholder="Trinket"></label>
+                <label><span>✨ Ability III</span><input type="text" data-equipment-slot="ability3" placeholder="Active ability"></label>
+              </div>
+            </div>
+            <datalist id="backpack-item-options"></datalist>
+          </div>
+        </section>
+        <section class="book-page" data-book-page="attributes">
+          <button class="book-section-heading" type="button" data-book-section-toggle="attributes" aria-expanded="true"><span>Attributes & Common Checks</span><span class="book-chevron">⌄</span></button>
+          <div class="book-section-content">
+            <p class="attribute-intro">Use the examples below to choose the attribute that best matches what your character is attempting.</p>
+            <div class="attribute-cards detailed">
+              <article class="attribute-card"><div class="attribute-card-top"><div><h3><span class="attribute-icon" aria-hidden="true">💪</span>Strength</h3><p>Raw physical power, force, and athletic effort.</p></div><input aria-label="Strength score" type="number" data-book-field="strength"></div><details><summary>When to use Strength</summary><p>Breaking, lifting, pushing, climbing, jumping, grappling, or striking with force.</p><div class="common-checks"><span>Break a door</span><span>Lift a boulder</span><span>Grapple</span><span>Climb</span></div><blockquote>“I force the rusted gate open.”</blockquote></details></article>
+              <article class="attribute-card"><div class="attribute-card-top"><div><h3><span class="attribute-icon" aria-hidden="true">🪶</span>Dexterity</h3><p>Agility, balance, reflexes, stealth, and precision.</p></div><input aria-label="Dexterity score" type="number" data-book-field="dexterity"></div><details><summary>When to use Dexterity</summary><p>Dodging, sneaking, balancing, picking locks, delicate handling, or accurate movement.</p><div class="common-checks"><span>Sneak past guards</span><span>Pick a lock</span><span>Keep balance</span><span>Catch an object</span></div><blockquote>“I quietly move behind the sentry.”</blockquote></details></article>
+              <article class="attribute-card"><div class="attribute-card-top"><div><h3><span class="attribute-icon" aria-hidden="true">❤️</span>Constitution</h3><p>Endurance, stamina, health, and physical resilience.</p></div><input aria-label="Constitution score" type="number" data-book-field="constitution"></div><details><summary>When to use Constitution</summary><p>Resisting poison, disease, exhaustion, harsh weather, pain, or prolonged physical strain.</p><div class="common-checks"><span>Resist poison</span><span>Endure cold</span><span>Hold breath</span><span>March longer</span></div><blockquote>“I keep moving despite the toxic fumes.”</blockquote></details></article>
+              <article class="attribute-card"><div class="attribute-card-top"><div><h3><span class="attribute-icon" aria-hidden="true">📖</span>Intelligence</h3><p>Reasoning, memory, education, and careful analysis.</p></div><input aria-label="Intelligence score" type="number" data-book-field="intelligence"></div><details><summary>When to use Intelligence</summary><p>Recalling lore, investigating clues, solving puzzles, decoding writing, or understanding complex systems.</p><div class="common-checks"><span>Recall lore</span><span>Study a clue</span><span>Solve a puzzle</span><span>Decode runes</span></div><blockquote>“Do I recognize this ancient symbol?”</blockquote></details></article>
+              <article class="attribute-card"><div class="attribute-card-top"><div><h3><span class="attribute-icon" aria-hidden="true">👁️</span>Wisdom</h3><p>Awareness, instinct, perception, and practical judgment.</p></div><input aria-label="Wisdom score" type="number" data-book-field="wisdom"></div><details><summary>When to use Wisdom</summary><p>Noticing danger, reading behavior, tracking, treating injuries, surviving outdoors, or trusting intuition.</p><div class="common-checks"><span>Search a room</span><span>Track footprints</span><span>Read emotions</span><span>Forage</span></div><blockquote>“Do I sense that the guide is lying?”</blockquote></details></article>
+              <article class="attribute-card"><div class="attribute-card-top"><div><h3><span class="attribute-icon" aria-hidden="true">🎭</span>Charisma</h3><p>Presence, confidence, leadership, and social influence.</p></div><input aria-label="Charisma score" type="number" data-book-field="charisma"></div><details><summary>When to use Charisma</summary><p>Persuading, deceiving, intimidating, performing, negotiating, or commanding attention.</p><div class="common-checks"><span>Negotiate</span><span>Intimidate</span><span>Bluff</span><span>Perform</span></div><blockquote>“I convince the guard to let us pass.”</blockquote></details></article>
+            </div>
+          </div>
+        </section>
+        <section class="book-page" data-book-page="combat">
+          <button class="book-section-heading" type="button" data-book-section-toggle="combat" aria-expanded="false"><span>Combat</span><span class="book-chevron">›</span></button>
+          <div class="book-section-content" hidden><div class="book-grid three">
+            <label>Armor Class<input type="number" data-book-field="armorClass"></label><label>Initiative<input type="number" data-book-field="initiative"></label><label>Movement<input type="number" data-book-field="movement"></label><label>Infection Level<input type="number" min="0" max="10" data-book-field="infectionLevel"></label>
+          </div><div class="book-dice"><label>Roll with<select data-book-roll-attribute><option value="strength">Strength</option><option value="dexterity">Dexterity</option><option value="constitution">Constitution</option><option value="intelligence">Intelligence</option><option value="wisdom">Wisdom</option><option value="charisma">Charisma</option></select></label><button type="button" data-book-roll><span aria-hidden="true">🎲</span> Roll d20</button><output data-book-roll-result>Ready.</output></div></div>
+        </section>
+        <section class="book-page" data-book-page="resistances">
+          <button class="book-section-heading" type="button" data-book-section-toggle="resistances" aria-expanded="false"><span>Resistances & Saves</span><span class="book-chevron">›</span></button>
+          <div class="book-section-content" hidden><div class="book-grid two">
+            <label>Physical<input type="number" data-book-field="physicalResist"></label><label>Corruption<input type="number" data-book-field="corruptionResist"></label><label>Psychic<input type="number" data-book-field="psychicResist"></label><label>Fear<input type="number" data-book-field="fearResist"></label><label>Disease<input type="number" data-book-field="diseaseResist"></label><label><span data-book-other-label>Other</span><input type="text" placeholder="Resistance name" data-book-field="otherResistLabel"><input type="number" data-book-field="otherResist"></label>
+          </div></div>
+        </section>
+        <section class="book-page" data-book-page="conditions">
+          <button class="book-section-heading" type="button" data-book-section-toggle="conditions" aria-expanded="false"><span>Conditions</span><span class="book-chevron">›</span></button>
+          <div class="book-section-content" hidden>
+            <div class="condition-section-toolbar">
+              <p>Toggle any active effects. Multiple conditions can be displayed at the same time.</p>
+              <button type="button" class="reset-conditions-button" data-reset-conditions>Reset all conditions</button>
+            </div>
+            <div class="book-condition-grid" data-book-conditions></div>
+          </div>
+        </section>
+        <section class="book-page" data-book-page="biography">
+          <button class="book-section-heading" type="button" data-book-section-toggle="biography" aria-expanded="false"><span>Biography & Sheet Notes</span><span class="book-chevron">›</span></button>
+          <div class="book-section-content" hidden><label class="book-long-field">Appearance<textarea data-book-field="appearance"></textarea></label><label class="book-long-field">Notes<textarea data-book-field="notes"></textarea></label><label class="book-long-field">Journal<textarea data-book-field="journal"></textarea></label></div>
+        </section>
+        <section class="book-page" data-book-page="quips">
+          <button class="book-section-heading" type="button" data-book-section-toggle="quips" aria-expanded="false"><span>🎭 Character Quips</span><span class="book-chevron">›</span></button>
+          <div class="book-section-content" hidden>
+            <p class="quips-intro">Generate in-character lines using the occupation, origin, appearance, notes, and journal written in the Biography section.</p>
+            <div class="quip-controls"><label>Situation or prompt (optional)<input type="text" data-quip-prompt placeholder="After surviving a narrow escape…"></label><button type="button" data-generate-quip><span aria-hidden="true">🎲</span> Generate Quip</button></div>
+            <blockquote class="generated-quip" data-generated-quip>Write a little biography, then generate your character’s first quip.</blockquote>
+            <div class="quip-history-head">
+              <button type="button" class="history-toggle" data-toggle-quip-history aria-expanded="true"><span class="history-chevron">⌄</span><strong>Recent quips</strong></button>
+              <button type="button" data-clear-quips>Clear</button>
+            </div>
+            <div class="quip-history collapsible-history" data-quip-history></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <aside class="dock legacy-dock"><h2>Quick Controls</h2><div class="hp"><button data-hp="-5">−5</button><button data-hp="-1">−1</button><button data-hp="1">+1</button><button data-hp="5">+5</button></div>
+    <div class="bar"><div id="healthFill"></div><div id="tempHealthFill"></div></div><p id="healthText">0 / 0 HP</p>
     <select id="rollAttribute"><option value="strength">Strength</option><option value="dexterity">Dexterity</option><option value="constitution">Constitution</option><option value="intelligence">Intelligence</option><option value="wisdom">Wisdom</option><option value="charisma">Charisma</option></select>
-    <button id="rollBtn">Roll d20</button><div id="rollResult" class="result">Ready.</div>
+    <button id="rollBtn"><span aria-hidden="true">🎲</span> Roll d20</button><div id="rollResult" class="result">Ready.</div>
   </aside>
 </div></div></main>
 <div id="toast" class="toast"></div><script src="app.js"></script>
